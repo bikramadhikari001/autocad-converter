@@ -285,6 +285,24 @@
                 <span class="detail-label">Quality:</span>
                 <span class="detail-value">{{ result.quality|title }}</span>
             </div>
+            {% if result.model_used %}
+            <div class="detail-item">
+                <span class="detail-label">AI Model:</span>
+                <span class="detail-value">{{ result.model_used }}</span>
+            </div>
+            {% endif %}
+            {% if result.tokens_used %}
+            <div class="detail-item">
+                <span class="detail-label">Tokens Used:</span>
+                <span class="detail-value">{{ result.tokens_used }}</span>
+            </div>
+            {% endif %}
+            <div class="detail-item">
+                <span class="detail-label">Validation:</span>
+                <span class="detail-value" style="color: {{ 'green' if result.is_valid else 'orange' }}">
+                    {{ 'Passed' if result.is_valid else 'Warning' }}
+                </span>
+            </div>
         </div>
 
         <div class="downloads-section">

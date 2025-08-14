@@ -23,3 +23,6 @@ primary_region = "ord"
 [[env]]
   FLASK_ENV = "production"
   FLASK_APP = "app.py"
+  OPENAI_BASE_URL = "https://openrouter.ai/api/v1"
+  OPENROUTER_MODEL = "openai/gpt-4o-mini"
+  DXF_MAX_TOKENS = "16384"

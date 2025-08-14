@@ -6,6 +6,7 @@ from datetime import datetime
 from werkzeug.utils import secure_filename
 from werkzeug.security import check_password_hash, generate_password_hash
 import json
+from generator import dxf_generator
 
 app = Flask(__name__)
 app.secret_key = 'your-secret-key-change-in-production'
@@ -133,44 +134,75 @@ def process():
 def convert_api():
     if 'uploaded_file' not in session:
         return jsonify({'error': 'No file uploaded'}), 400
-    
-    # Mock conversion process with stages
-    stages = [
-        {'name': 'Analyzing image content...', 'duration': 2},
-        {'name': 'Detecting lines and shapes...', 'duration': 3},
-        {'name': 'Converting to vector format...', 'duration': 4},
-        {'name': 'Optimizing CAD file...', 'duration': 2},
-        {'name': 'Preparing download...', 'duration': 1}
-    ]
-    
-    # Simulate processing time
-    time.sleep(1)
-    
-    # Create mock converted file
-    converted_filename = f"converted_{uuid.uuid4()}.dwg"
-    converted_path = os.path.join(CONVERTED_FOLDER, converted_filename)
-    
-    # Create a dummy file (in real implementation, this would be the actual conversion)
-    with open(converted_path, 'w') as f:
-        f.write("Mock CAD file content")
-    
-    # Add to conversion history
-    conversion_record = {
-        'id': str(uuid.uuid4()),
-        'original_filename': session.get('original_filename', 'unknown'),
-        'converted_filename': converted_filename,
-        'timestamp': datetime.now().isoformat(),
-        'processing_time': 12,  # seconds
-        'elements_detected': 47,
-        'file_size': '2.1 MB',
-        'quality': session.get('config', {}).get('quality', 'balanced'),
-        'config': session.get('config', {})
-    }
-    
-    conversion_history.append(conversion_record)
-    session['conversion_result'] = conversion_record
-    
-    return jsonify({'status': 'complete', 'redirect': url_for('results')})
+
+    try:
+        # Get uploaded file path
+        uploaded_filename = session['uploaded_file']
+        uploaded_path = os.path.join(UPLOAD_FOLDER, uploaded_filename)
+
+        if not os.path.exists(uploaded_path):
+            return jsonify({'error': 'Uploaded file not found'}), 400
+
+        # Read image bytes
+        with open(uploaded_path, 'rb') as f:
+            image_bytes = f.read()
+
+        # Get configuration from session
+        config = session.get('config', {})
+
+        # Record start time
+        start_time = time.time()
+
+        # Generate DXF using AI
+        dxf_content, raw_content, is_valid, metadata = dxf_generator.generate_dxf_from_image_bytes(
+            image_bytes, config
+        )
+
+        # Calculate processing time
+        processing_time = round(time.time() - start_time, 1)
+
+        if not dxf_content:
+            error_msg = metadata.get('error', 'AI model returned empty content')
+            return jsonify({'error': f'Conversion failed: {error_msg}'}), 500
+
+        # Create converted file
+        converted_filename = f"converted_{uuid.uuid4()}.dxf"
+        converted_path = os.path.join(CONVERTED_FOLDER, converted_filename)
+
+        # Save DXF content
+        with open(converted_path, 'w', encoding='utf-8') as f:
+            f.write(dxf_content)
+
+        # Calculate file size
+        file_size_bytes = len(dxf_content.encode('utf-8'))
+        file_size = f"{file_size_bytes / 1024:.1f} KB" if file_size_bytes < 1024*1024 else f"{file_size_bytes / (1024*1024):.1f} MB"
+
+        # Estimate elements detected (simple heuristic)
+        elements_detected = dxf_content.count('LINE') + dxf_content.count('LWPOLYLINE') + dxf_content.count('TEXT')
+
+        # Create conversion record
+        conversion_record = {
+            'id': str(uuid.uuid4()),
+            'original_filename': session.get('original_filename', 'unknown'),
+            'converted_filename': converted_filename,
+            'timestamp': datetime.now().isoformat(),
+            'processing_time': processing_time,
+            'elements_detected': elements_detected,
+            'file_size': file_size,
+            'quality': config.get('quality', 'balanced'),
+            'config': config,
+            'is_valid': is_valid,
+            'model_used': metadata.get('model_used', 'unknown'),
+            'tokens_used': metadata.get('tokens_used', 0)
+        }
+
+        conversion_history.append(conversion_record)
+        session['conversion_result'] = conversion_record
+
+        return jsonify({'status': 'complete', 'redirect': url_for('results')})
+
+    except Exception as e:
+        return jsonify({'error': f'Conversion failed: {str(e)}'}), 500
 
 @app.route('/results')
 @login_required

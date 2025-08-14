@@ -190,23 +190,23 @@
         <div class="processing-stages">
             <div class="stage pending" id="stage1">
                 <div class="stage-icon">○</div>
-                <div class="stage-text">Analyzing image content...</div>
+                <div class="stage-text">Preparing image for AI analysis...</div>
             </div>
             <div class="stage pending" id="stage2">
                 <div class="stage-icon">○</div>
-                <div class="stage-text">Detecting lines and shapes...</div>
+                <div class="stage-text">AI analyzing architectural elements...</div>
             </div>
             <div class="stage pending" id="stage3">
                 <div class="stage-icon">○</div>
-                <div class="stage-text">Converting to vector format...</div>
+                <div class="stage-text">Generating DXF structure...</div>
             </div>
             <div class="stage pending" id="stage4">
                 <div class="stage-icon">○</div>
-                <div class="stage-text">Optimizing CAD file...</div>
+                <div class="stage-text">Validating CAD output...</div>
             </div>
             <div class="stage pending" id="stage5">
                 <div class="stage-icon">○</div>
-                <div class="stage-text">Preparing download...</div>
+                <div class="stage-text">Finalizing conversion...</div>
             </div>
         </div>
 
@@ -222,7 +222,7 @@
 let currentStage = 0;
 let progress = 0;
 const stages = ['stage1', 'stage2', 'stage3', 'stage4', 'stage5'];
-const stageDurations = [2000, 3000, 4000, 2000, 1000]; // milliseconds
+const stageDurations = [3000, 15000, 8000, 3000, 2000]; // milliseconds - more realistic for AI processing
 const totalDuration = stageDurations.reduce((a, b) => a + b, 0);
 
 function updateProgress() {
