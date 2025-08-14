@@ -1,0 +1,28 @@
+<svg width="200" height="150" xmlns="http://www.w3.org/2000/svg">
+  <rect width="200" height="150" fill="#f8f9fa" stroke="#dee2e6" stroke-width="2"/>
+  
+  <!-- Hand-drawn style sketch -->
+  <g stroke="#6c757d" stroke-width="2" fill="none">
+    <!-- Rough rectangle for room -->
+    <path d="M20 30 L175 32 L173 120 L22 118 Z" stroke-dasharray="3,2"/>
+    
+    <!-- Door -->
+    <path d="M80 30 Q85 35 90 30" stroke-width="3"/>
+    <circle cx="85" cy="35" r="2" fill="#6c757d"/>
+    
+    <!-- Windows -->
+    <rect x="130" y="28" width="25" height="8" stroke-width="1"/>
+    <rect x="25" y="60" width="8" height="20" stroke-width="1"/>
+    
+    <!-- Furniture sketches -->
+    <circle cx="60" cy="70" r="15" stroke-dasharray="2,1"/>
+    <rect x="120" y="85" width="30" height="20" stroke-dasharray="2,1"/>
+    
+    <!-- Annotations -->
+    <text x="40" y="45" font-family="Arial" font-size="8" fill="#6c757d">Living Room</text>
+    <text x="125" y="105" font-family="Arial" font-size="6" fill="#6c757d">Table</text>
+  </g>
+  
+  <!-- Title -->
+  <text x="100" y="140" text-anchor="middle" font-family="Arial" font-size="10" fill="#495057">Hand-drawn Sketch</text>
+</svg>

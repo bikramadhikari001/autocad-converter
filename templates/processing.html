@@ -1,0 +1,321 @@
+{% extends "base.html" %}
+
+{% block title %}Converting - Step 3 of 3{% endblock %}
+
+{% block extra_css %}
+<style>
+.processing-container {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 2rem;
+    text-align: center;
+}
+
+.step-indicator {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 3rem;
+}
+
+.step {
+    display: flex;
+    align-items: center;
+    margin: 0 1rem;
+}
+
+.step-number {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    margin-right: 0.5rem;
+}
+
+.step.active .step-number {
+    background: #2563eb;
+    color: white;
+}
+
+.step.completed .step-number {
+    background: #16a34a;
+    color: white;
+}
+
+.progress-section {
+    background: #f8fafc;
+    border-radius: 12px;
+    padding: 3rem 2rem;
+    margin: 2rem 0;
+}
+
+.progress-bar-container {
+    margin: 2rem 0;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 12px;
+    background: #e5e7eb;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-bottom: 1rem;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #2563eb, #3b82f6);
+    width: 0%;
+    transition: width 0.5s ease;
+    border-radius: 6px;
+}
+
+.progress-percentage {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #2563eb;
+    margin-bottom: 2rem;
+}
+
+.processing-stages {
+    text-align: left;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.stage {
+    display: flex;
+    align-items: center;
+    padding: 0.75rem 0;
+    font-size: 1rem;
+}
+
+.stage-icon {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 1rem;
+    font-size: 0.8rem;
+}
+
+.stage.completed .stage-icon {
+    background: #16a34a;
+    color: white;
+}
+
+.stage.active .stage-icon {
+    background: #2563eb;
+    color: white;
+    animation: pulse 1.5s infinite;
+}
+
+.stage.pending .stage-icon {
+    background: #e5e7eb;
+    color: #9ca3af;
+}
+
+.stage.completed .stage-text {
+    color: #16a34a;
+}
+
+.stage.active .stage-text {
+    color: #2563eb;
+    font-weight: 500;
+}
+
+.stage.pending .stage-text {
+    color: #9ca3af;
+}
+
+.time-estimate {
+    margin-top: 2rem;
+    color: #6b7280;
+    font-size: 1rem;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+.processing-animation {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="processing-container">
+    <div class="step-indicator">
+        <div class="step completed">
+            <div class="step-number">✓</div>
+            <span>Choose Your Image</span>
+        </div>
+        <div class="step completed">
+            <div class="step-number">✓</div>
+            <span>Configure Settings</span>
+        </div>
+        <div class="step active">
+            <div class="step-number">3</div>
+            <span>Convert</span>
+        </div>
+    </div>
+
+    <h1>Step 3 of 3: Converting Your Image</h1>
+
+    <div class="progress-section">
+        <div class="processing-animation">⚙️</div>
+        
+        <div class="progress-percentage" id="progressPercentage">0%</div>
+        
+        <div class="progress-bar-container">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+        </div>
+
+        <div class="processing-stages">
+            <div class="stage pending" id="stage1">
+                <div class="stage-icon">○</div>
+                <div class="stage-text">Analyzing image content...</div>
+            </div>
+            <div class="stage pending" id="stage2">
+                <div class="stage-icon">○</div>
+                <div class="stage-text">Detecting lines and shapes...</div>
+            </div>
+            <div class="stage pending" id="stage3">
+                <div class="stage-icon">○</div>
+                <div class="stage-text">Converting to vector format...</div>
+            </div>
+            <div class="stage pending" id="stage4">
+                <div class="stage-icon">○</div>
+                <div class="stage-text">Optimizing CAD file...</div>
+            </div>
+            <div class="stage pending" id="stage5">
+                <div class="stage-icon">○</div>
+                <div class="stage-text">Preparing download...</div>
+            </div>
+        </div>
+
+        <div class="time-estimate" id="timeEstimate">
+            Estimated time remaining: <span id="timeRemaining">calculating...</span>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+let currentStage = 0;
+let progress = 0;
+const stages = ['stage1', 'stage2', 'stage3', 'stage4', 'stage5'];
+const stageDurations = [2000, 3000, 4000, 2000, 1000]; // milliseconds
+const totalDuration = stageDurations.reduce((a, b) => a + b, 0);
+
+function updateProgress() {
+    const progressFill = document.getElementById('progressFill');
+    const progressPercentage = document.getElementById('progressPercentage');
+    
+    progressFill.style.width = progress + '%';
+    progressPercentage.textContent = Math.round(progress) + '%';
+}
+
+function updateStage(stageIndex, status) {
+    const stage = document.getElementById(stages[stageIndex]);
+    const icon = stage.querySelector('.stage-icon');
+    
+    stage.className = `stage ${status}`;
+    
+    if (status === 'completed') {
+        icon.textContent = '✓';
+    } else if (status === 'active') {
+        icon.textContent = '►';
+    } else {
+        icon.textContent = '○';
+    }
+}
+
+function updateTimeEstimate(remainingMs) {
+    const timeRemaining = document.getElementById('timeRemaining');
+    const seconds = Math.ceil(remainingMs / 1000);
+    timeRemaining.textContent = seconds + ' seconds';
+}
+
+function startConversion() {
+    let elapsedTime = 0;
+    
+    const interval = setInterval(() => {
+        elapsedTime += 100;
+        progress = (elapsedTime / totalDuration) * 100;
+        
+        // Update current stage
+        let cumulativeTime = 0;
+        let newCurrentStage = 0;
+        
+        for (let i = 0; i < stageDurations.length; i++) {
+            cumulativeTime += stageDurations[i];
+            if (elapsedTime <= cumulativeTime) {
+                newCurrentStage = i;
+                break;
+            }
+        }
+        
+        // Update stage indicators
+        for (let i = 0; i < stages.length; i++) {
+            if (i < newCurrentStage) {
+                updateStage(i, 'completed');
+            } else if (i === newCurrentStage) {
+                updateStage(i, 'active');
+            } else {
+                updateStage(i, 'pending');
+            }
+        }
+        
+        currentStage = newCurrentStage;
+        updateProgress();
+        updateTimeEstimate(totalDuration - elapsedTime);
+        
+        if (elapsedTime >= totalDuration) {
+            clearInterval(interval);
+            // All stages completed
+            for (let i = 0; i < stages.length; i++) {
+                updateStage(i, 'completed');
+            }
+            progress = 100;
+            updateProgress();
+            
+            // Call the conversion API
+            fetch('/api/convert')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'complete') {
+                        window.location.href = data.redirect;
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Conversion failed. Please try again.');
+                });
+        }
+    }, 100);
+}
+
+// Start conversion when page loads
+document.addEventListener('DOMContentLoaded', function() {
+    setTimeout(startConversion, 1000);
+});
+</script>
+{% endblock %}

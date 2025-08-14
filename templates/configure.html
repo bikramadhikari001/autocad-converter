@@ -1,0 +1,236 @@
+{% extends "base.html" %}
+
+{% block title %}Configure Settings - Step 2 of 3{% endblock %}
+
+{% block extra_css %}
+<style>
+.configure-container {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 2rem;
+}
+
+.step-indicator {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 3rem;
+}
+
+.step {
+    display: flex;
+    align-items: center;
+    margin: 0 1rem;
+}
+
+.step-number {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    margin-right: 0.5rem;
+}
+
+.step.active .step-number {
+    background: #2563eb;
+    color: white;
+}
+
+.step.completed .step-number {
+    background: #16a34a;
+    color: white;
+}
+
+.step.inactive .step-number {
+    background: #e5e7eb;
+    color: #9ca3af;
+}
+
+.settings-section {
+    background: #f8fafc;
+    border-radius: 12px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+}
+
+.settings-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #1e293b;
+    margin-bottom: 1.5rem;
+}
+
+.setting-group {
+    margin-bottom: 1.5rem;
+}
+
+.setting-label {
+    display: block;
+    font-weight: 500;
+    color: #374151;
+    margin-bottom: 0.5rem;
+}
+
+.setting-select {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 1rem;
+    background: white;
+}
+
+.advanced-toggle {
+    background: none;
+    border: none;
+    color: #2563eb;
+    font-size: 1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.advanced-toggle:hover {
+    text-decoration: underline;
+}
+
+.advanced-settings {
+    display: none;
+}
+
+.advanced-settings.show {
+    display: block;
+}
+
+.setting-description {
+    font-size: 0.9rem;
+    color: #6b7280;
+    margin-top: 0.25rem;
+}
+
+.continue-btn {
+    width: 100%;
+    padding: 1rem;
+    font-size: 1.1rem;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="configure-container">
+    <div class="step-indicator">
+        <div class="step completed">
+            <div class="step-number">✓</div>
+            <span>Choose Your Image</span>
+        </div>
+        <div class="step active">
+            <div class="step-number">2</div>
+            <span>Configure Settings</span>
+        </div>
+        <div class="step inactive">
+            <div class="step-number">3</div>
+            <span>Convert</span>
+        </div>
+    </div>
+
+    <h1>Step 2 of 3: Configure Settings</h1>
+
+    <form method="POST" action="{{ url_for('process') }}">
+        <div class="settings-section">
+            <h2 class="settings-title">Basic Settings</h2>
+            
+            <div class="setting-group">
+                <label class="setting-label" for="output_format">Output Format</label>
+                <select name="output_format" id="output_format" class="setting-select">
+                    <option value="dwg">DWG (AutoCAD Drawing)</option>
+                    <option value="dxf">DXF (Drawing Exchange Format)</option>
+                    <option value="pdf">PDF (Portable Document Format)</option>
+                </select>
+                <div class="setting-description">Choose the format for your converted CAD file</div>
+            </div>
+
+            <div class="setting-group">
+                <label class="setting-label" for="quality">Quality</label>
+                <select name="quality" id="quality" class="setting-select">
+                    <option value="fast">Fast (Quick processing, basic accuracy)</option>
+                    <option value="balanced" selected>Balanced (Good speed and accuracy)</option>
+                    <option value="high">High Quality (Slower, maximum accuracy)</option>
+                </select>
+                <div class="setting-description">Balance between processing speed and conversion accuracy</div>
+            </div>
+
+            <div class="setting-group">
+                <label class="setting-label" for="scale">Scale</label>
+                <select name="scale" id="scale" class="setting-select">
+                    <option value="auto" selected>Auto-detect</option>
+                    <option value="1:1">1:1 (Actual size)</option>
+                    <option value="1:10">1:10</option>
+                    <option value="1:50">1:50</option>
+                    <option value="1:100">1:100</option>
+                    <option value="custom">Custom scale</option>
+                </select>
+                <div class="setting-description">Set the scale for your CAD drawing</div>
+            </div>
+        </div>
+
+        <button type="button" class="advanced-toggle" id="advancedToggle">
+            ▼ Advanced Settings
+        </button>
+
+        <div class="settings-section advanced-settings" id="advancedSettings">
+            <h2 class="settings-title">Advanced Settings</h2>
+            
+            <div class="setting-group">
+                <label class="setting-label" for="line_detection">Line Detection</label>
+                <select name="line_detection" id="line_detection" class="setting-select">
+                    <option value="normal" selected>Normal (Standard detection)</option>
+                    <option value="sensitive">Sensitive (Detect faint lines)</option>
+                    <option value="precise">Precise (High accuracy mode)</option>
+                </select>
+                <div class="setting-description">Adjust how the system detects lines in your image</div>
+            </div>
+
+            <div class="setting-group">
+                <label class="setting-label" for="text_recognition">Text Recognition</label>
+                <select name="text_recognition" id="text_recognition" class="setting-select">
+                    <option value="on" selected>On (Include text in CAD file)</option>
+                    <option value="off">Off (Lines and shapes only)</option>
+                </select>
+                <div class="setting-description">Whether to recognize and include text from the image</div>
+            </div>
+
+            <div class="setting-group">
+                <label class="setting-label" for="color_handling">Color Handling</label>
+                <select name="color_handling" id="color_handling" class="setting-select">
+                    <option value="preserve" selected>Preserve (Keep original colors)</option>
+                    <option value="grayscale">Grayscale (Convert to black/white)</option>
+                    <option value="layers">Layers (Separate by color)</option>
+                </select>
+                <div class="setting-description">How to handle colors in the converted CAD file</div>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary continue-btn">Continue to Convert</button>
+    </form>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.getElementById('advancedToggle').addEventListener('click', function() {
+    const advancedSettings = document.getElementById('advancedSettings');
+    const isVisible = advancedSettings.classList.contains('show');
+    
+    if (isVisible) {
+        advancedSettings.classList.remove('show');
+        this.innerHTML = '▼ Advanced Settings';
+    } else {
+        advancedSettings.classList.add('show');
+        this.innerHTML = '▲ Advanced Settings';
+    }
+});
+</script>
+{% endblock %}

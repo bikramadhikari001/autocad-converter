@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="hero-section">
+    <div class="container">
+        <div class="hero-content">
+            <h1 class="hero-title">Image to AutoCAD Converter</h1>
+            <p class="hero-subtitle">Transform your sketches, blueprints, and technical drawings into professional CAD files</p>
+            
+            <div class="hero-cta">
+                <h2 class="demo-title">See How It Works - Live Examples</h2>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="demo-section">
+    <div class="container">
+        <div class="demo-examples">
+            <div class="demo-example">
+                <div class="demo-before">
+                    <h3>Before: Hand Sketch</h3>
+                    <div class="demo-image-placeholder">
+                        <img src="{{ url_for('static', filename='examples/sketch-before.svg') }}" alt="Hand-drawn sketch" class="demo-image">
+                    </div>
+                    <p class="demo-description">Hand-drawn architectural sketch</p>
+                </div>
+                <div class="demo-arrow">←→</div>
+                <div class="demo-after">
+                    <h3>After: Clean CAD Lines</h3>
+                    <div class="demo-image-placeholder">
+                        <img src="{{ url_for('static', filename='examples/sketch-after.svg') }}" alt="Clean CAD drawing" class="demo-image">
+                    </div>
+                    <p class="demo-description">Professional CAD floor plan</p>
+                </div>
+            </div>
+
+            <div class="demo-example">
+                <div class="demo-before">
+                    <h3>Before: Floor Plan</h3>
+                    <div class="demo-image-placeholder">
+                        <img src="{{ url_for('static', filename='examples/blueprint-before.svg') }}" alt="Scanned blueprint" class="demo-image">
+                    </div>
+                    <p class="demo-description">Scanned blueprint</p>
+                </div>
+                <div class="demo-arrow">←→</div>
+                <div class="demo-after">
+                    <h3>After: Vector Drawing</h3>
+                    <div class="demo-image-placeholder">
+                        <img src="{{ url_for('static', filename='examples/blueprint-after.svg') }}" alt="Vector technical drawing" class="demo-image">
+                    </div>
+                    <p class="demo-description">Vector technical drawing</p>
+                </div>
+            </div>
+
+            <div class="demo-example">
+                <div class="demo-before">
+                    <h3>Before: Technical</h3>
+                    <div class="demo-image-placeholder">
+                        <img src="{{ url_for('static', filename='examples/technical-before.svg') }}" alt="Photo of sketch" class="demo-image">
+                    </div>
+                    <p class="demo-description">Photo of technical sketch</p>
+                </div>
+                <div class="demo-arrow">←→</div>
+                <div class="demo-after">
+                    <h3>After: Precise CAD</h3>
+                    <div class="demo-image-placeholder">
+                        <img src="{{ url_for('static', filename='examples/technical-after.svg') }}" alt="Professional CAD file" class="demo-image">
+                    </div>
+                    <p class="demo-description">Professional CAD file</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="cta-section">
+            <h2 class="cta-title">Ready to convert your image?</h2>
+            <a href="{{ url_for('upload') }}" class="btn btn-primary btn-large">GET STARTED</a>
+        </div>
+    </div>
+</div>
+
+<div class="features-section">
+    <div class="container">
+        <div class="features-grid">
+            <div class="feature">
+                <div class="feature-icon">📁</div>
+                <h3>Multiple Formats</h3>
+                <p>Support for JPG, PNG, and PDF files up to 10MB</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">⚡</div>
+                <h3>Fast Processing</h3>
+                <p>Convert your images to CAD files in seconds</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">🎯</div>
+                <h3>High Accuracy</h3>
+                <p>Advanced line detection and shape recognition</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">💾</div>
+                <h3>Multiple Outputs</h3>
+                <p>Download as DWG, DXF, or PDF formats</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

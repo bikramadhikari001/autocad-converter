@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}Login - Image to AutoCAD Converter{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="login-container">
+        <div class="login-form">
+            <h2>Login to Continue</h2>
+            <p class="login-subtitle">Access the Image to AutoCAD Converter</p>
+            
+            <form method="POST" class="form">
+                <div class="form-group">
+                    <label for="username" class="form-label">Username</label>
+                    <input type="text" id="username" name="username" class="form-input" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" id="password" name="password" class="form-input" required>
+                </div>
+                
+                <button type="submit" class="btn btn-primary btn-full">Login</button>
+            </form>
+            
+            <div class="login-help">
+                <p class="text-muted">Demo credentials: admin / password123</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

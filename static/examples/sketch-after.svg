@@ -1,0 +1,39 @@
+<svg width="200" height="150" xmlns="http://www.w3.org/2000/svg">
+  <rect width="200" height="150" fill="#ffffff" stroke="#000000" stroke-width="1"/>
+  
+  <!-- Clean CAD-style drawing -->
+  <g stroke="#000000" stroke-width="1" fill="none">
+    <!-- Precise rectangle for room -->
+    <rect x="20" y="30" width="155" height="90"/>
+    
+    <!-- Door with proper CAD symbols -->
+    <line x1="80" y1="30" x2="90" y2="30" stroke-width="2"/>
+    <path d="M80 30 A10 10 0 0 1 90 40" stroke-width="0.5" stroke-dasharray="1,1"/>
+    
+    <!-- Windows with proper symbols -->
+    <rect x="130" y="28" width="25" height="4"/>
+    <line x1="130" y1="30" x2="155" y2="30" stroke-width="2"/>
+    
+    <rect x="23" y="60" width="4" height="20"/>
+    <line x1="25" y1="60" x2="25" y2="80" stroke-width="2"/>
+    
+    <!-- Furniture with precise lines -->
+    <circle cx="60" cy="70" r="15"/>
+    <rect x="120" y="85" width="30" height="20"/>
+    
+    <!-- Dimension lines -->
+    <g stroke="#666666" stroke-width="0.5">
+      <line x1="20" y1="125" x2="175" y2="125"/>
+      <line x1="20" y1="123" x2="20" y2="127"/>
+      <line x1="175" y1="123" x2="175" y2="127"/>
+      <text x="97" y="135" text-anchor="middle" font-family="Arial" font-size="6" fill="#666666">155 units</text>
+    </g>
+    
+    <!-- Clean labels -->
+    <text x="97" y="45" text-anchor="middle" font-family="Arial" font-size="8" fill="#000000">LIVING ROOM</text>
+    <text x="135" y="100" text-anchor="middle" font-family="Arial" font-size="6" fill="#000000">TABLE</text>
+  </g>
+  
+  <!-- Title -->
+  <text x="100" y="145" text-anchor="middle" font-family="Arial" font-size="10" fill="#000000">Clean CAD Drawing</text>
+</svg>

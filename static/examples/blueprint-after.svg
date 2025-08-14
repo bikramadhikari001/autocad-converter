@@ -1,0 +1,64 @@
+<svg width="200" height="150" xmlns="http://www.w3.org/2000/svg">
+  <rect width="200" height="150" fill="#ffffff" stroke="#000000" stroke-width="1"/>
+  
+  <!-- Clean vector technical drawing -->
+  <g stroke="#000000" stroke-width="1" fill="none">
+    <!-- Precise building outline -->
+    <rect x="25" y="35" width="145" height="80"/>
+    
+    <!-- Internal walls -->
+    <line x1="25" y1="75" x2="170" y2="75"/>
+    <line x1="95" y1="35" x2="95" y2="115"/>
+    
+    <!-- Doors with proper CAD symbols -->
+    <rect x="60" y="33" width="15" height="4"/>
+    <line x1="60" y1="35" x2="75" y2="35" stroke-width="2"/>
+    
+    <rect x="93" y="73" width="4" height="12"/>
+    <line x1="95" y1="73" x2="95" y2="85" stroke-width="2"/>
+    
+    <!-- Windows with technical symbols -->
+    <rect x="130" y="33" width="20" height="4"/>
+    <line x1="130" y1="35" x2="150" y2="35" stroke-width="2"/>
+    <line x1="135" y1="33" x2="135" y2="37" stroke-width="0.5"/>
+    <line x1="145" y1="33" x2="145" y2="37" stroke-width="0.5"/>
+    
+    <rect x="23" y="55" width="4" height="15"/>
+    <line x1="25" y1="55" x2="25" y2="70" stroke-width="2"/>
+    <line x1="23" y1="60" x2="27" y2="60" stroke-width="0.5"/>
+    <line x1="23" y1="65" x2="27" y2="65" stroke-width="0.5"/>
+    
+    <!-- Fixtures with precise symbols -->
+    <circle cx="50" cy="55" r="8"/>
+    <text x="50" y="58" text-anchor="middle" font-family="Arial" font-size="4" fill="#000000">SINK</text>
+    
+    <rect x="120" y="90" width="25" height="15"/>
+    <line x1="125" y1="90" x2="125" y2="105" stroke-width="0.5"/>
+    <line x1="140" y1="90" x2="140" y2="105" stroke-width="0.5"/>
+    
+    <rect x="40" y="95" width="20" height="12"/>
+    <text x="50" y="103" text-anchor="middle" font-family="Arial" font-size="4" fill="#000000">BATH</text>
+    
+    <!-- Dimension lines -->
+    <g stroke="#666666" stroke-width="0.5">
+      <!-- Horizontal dimensions -->
+      <line x1="25" y1="125" x2="170" y2="125"/>
+      <line x1="25" y1="123" x2="25" y2="127"/>
+      <line x1="170" y1="123" x2="170" y2="127"/>
+      <text x="97" y="135" text-anchor="middle" font-family="Arial" font-size="6" fill="#666666">145 units</text>
+      
+      <!-- Vertical dimensions -->
+      <line x1="180" y1="35" x2="180" y2="115"/>
+      <line x1="178" y1="35" x2="182" y2="35"/>
+      <line x1="178" y1="115" x2="182" y2="115"/>
+      <text x="185" y="78" font-family="Arial" font-size="6" fill="#666666">80</text>
+    </g>
+  </g>
+  
+  <!-- Clean technical labels -->
+  <text x="60" y="50" font-family="Arial" font-size="8" fill="#000000">KITCHEN</text>
+  <text x="130" y="60" font-family="Arial" font-size="8" fill="#000000">BEDROOM</text>
+  
+  <!-- Title -->
+  <text x="100" y="145" text-anchor="middle" font-family="Arial" font-size="10" fill="#000000">Vector Technical Drawing</text>
+</svg>
