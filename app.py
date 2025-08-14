@@ -219,10 +219,53 @@ def results():
 @login_required
 def download_file(filename):
     try:
-        return send_file(os.path.join(CONVERTED_FOLDER, filename), as_attachment=True)
-    except FileNotFoundError:
-        flash('File not found', 'error')
+        file_path = os.path.join(CONVERTED_FOLDER, filename)
+
+        # Check if file exists
+        if not os.path.exists(file_path):
+            flash('File not found', 'error')
+            return redirect(url_for('results'))
+
+        # Determine MIME type based on extension
+        if filename.endswith('.dxf'):
+            mimetype = 'application/dxf'
+        elif filename.endswith('.dwg'):
+            mimetype = 'application/dwg'
+        elif filename.endswith('.pdf'):
+            mimetype = 'application/pdf'
+        else:
+            mimetype = 'application/octet-stream'
+
+        return send_file(
+            file_path,
+            as_attachment=True,
+            download_name=filename,
+            mimetype=mimetype
+        )
+    except Exception as e:
+        flash(f'Download failed: {str(e)}', 'error')
         return redirect(url_for('results'))
+
+@app.route('/debug/files')
+@login_required
+def debug_files():
+    """Debug route to check file system"""
+    try:
+        upload_files = os.listdir(UPLOAD_FOLDER) if os.path.exists(UPLOAD_FOLDER) else []
+        converted_files = os.listdir(CONVERTED_FOLDER) if os.path.exists(CONVERTED_FOLDER) else []
+
+        debug_info = {
+            'upload_folder': UPLOAD_FOLDER,
+            'converted_folder': CONVERTED_FOLDER,
+            'upload_files': upload_files,
+            'converted_files': converted_files,
+            'upload_folder_exists': os.path.exists(UPLOAD_FOLDER),
+            'converted_folder_exists': os.path.exists(CONVERTED_FOLDER)
+        }
+
+        return jsonify(debug_info)
+    except Exception as e:
+        return jsonify({'error': str(e)})
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)

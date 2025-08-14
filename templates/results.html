@@ -307,38 +307,41 @@
 
         <div class="downloads-section">
             <h2 class="details-title">Download Options</h2>
-            
-            <div class="download-option">
-                <div class="download-info">
-                    <div class="download-icon">📄</div>
-                    <div class="download-details">
-                        <h4>DWG File</h4>
-                        <p>AutoCAD Drawing (2.1 MB)</p>
-                    </div>
-                </div>
-                <a href="{{ url_for('download_file', filename=result.converted_filename) }}" class="download-btn">⬇ Download</a>
-            </div>
 
             <div class="download-option">
                 <div class="download-info">
                     <div class="download-icon">📋</div>
                     <div class="download-details">
                         <h4>DXF File</h4>
-                        <p>Drawing Exchange Format (1.8 MB)</p>
+                        <p>AutoCAD Drawing Exchange Format ({{ result.file_size }})</p>
+                        <small style="color: #6b7280;">Compatible with AutoCAD, LibreCAD, and other CAD software</small>
                     </div>
                 </div>
-                <a href="{{ url_for('download_file', filename=result.converted_filename) }}" class="download-btn">⬇ Download</a>
+                <a href="{{ url_for('download_file', filename=result.converted_filename) }}" class="download-btn">⬇ Download DXF</a>
             </div>
 
-            <div class="download-option">
+            <div class="download-option" style="opacity: 0.6;">
+                <div class="download-info">
+                    <div class="download-icon">📄</div>
+                    <div class="download-details">
+                        <h4>DWG File</h4>
+                        <p>AutoCAD Native Format</p>
+                        <small style="color: #f59e0b;">Coming Soon - Convert DXF to DWG using AutoCAD or FreeCAD</small>
+                    </div>
+                </div>
+                <button class="download-btn" style="background: #9ca3af; cursor: not-allowed;" disabled>Coming Soon</button>
+            </div>
+
+            <div class="download-option" style="opacity: 0.6;">
                 <div class="download-info">
                     <div class="download-icon">📑</div>
                     <div class="download-details">
                         <h4>PDF File</h4>
-                        <p>Portable Document Format (3.2 MB)</p>
+                        <p>Portable Document Format</p>
+                        <small style="color: #f59e0b;">Coming Soon - 2D PDF export from DXF</small>
                     </div>
                 </div>
-                <a href="{{ url_for('download_file', filename=result.converted_filename) }}" class="download-btn">⬇ Download</a>
+                <button class="download-btn" style="background: #9ca3af; cursor: not-allowed;" disabled>Coming Soon</button>
             </div>
         </div>
     </div>
